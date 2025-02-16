@@ -100,24 +100,43 @@ const gameController = (function() {
             if(turn === 1) {
                 if(player1.setValue(row,col) === false){
                     console.log("false move");
+                } else {
+                    switchTurn();
+                    console.log(gameBoard.getBoard());
+                    if (gameBoard.checkWin() === "X") {
+                        console.log("player1 wins");
+                        gameOver = true;
+                    } else if(gameBoard.checkWin() === "O"){
+                        console.log("player2 wins");
+                        gameOver = true;
+                    } else if(gameBoard.checkWin() === "Draw") {
+                        console.log("Draw")
+                        gameOver = true;
+                    } else {
+                        console.log(`This is player${turn} turn`)
+                    }
                 }
+
             } else if(turn === 2) {
                 if(player2.setValue(row,col) === false){
                     console.log("false move");
+                } else {
+                    switchTurn();
+                    console.log(gameBoard.getBoard());
+                    if (gameBoard.checkWin() === "X") {
+                        console.log("player1 wins");
+                    } else if(gameBoard.checkWin() === "O"){
+                        console.log("player2 wins");
+                    } else if(gameBoard.checkWin() === "Draw") {
+                        console.log("Draw")
+                    } else {
+                        console.log(`This is player${turn} turn`)
+                    }
                 }
             }
-            // turn === 1 ? player1.setValue(row,col) : player2.setValue(row,col);
-            switchTurn();
-            console.log(gameBoard.getBoard());
-            if (gameBoard.checkWin() === "X") {
-                console.log("player1 wins");
-            } else if(gameBoard.checkWin() === "O"){
-                console.log("player2 wins");
-            } else if(gameBoard.checkWin() === "Draw") {
-                console.log("Draw")
-            } else {
-                console.log(`This is player${turn} turn`)
-            }
+            
+        } else {
+            console.log("game over!, restart game")
         }
         
     }

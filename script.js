@@ -20,6 +20,12 @@ const gameBoard = (function() {
         return board;
     }
 
+    function resetBoard() {
+        board = [["", "", ""],
+                 ["", "", ""],
+                 ["", "", ""]]
+    }
+
     function isBoardFull() {
         for(let row of board){
             for (let col of row) {
@@ -70,7 +76,8 @@ const gameBoard = (function() {
         setValue,
         getBoard,
         checkWin,
-        isBoardFull
+        isBoardFull,
+        resetBoard
     }
 })();
 
@@ -145,12 +152,14 @@ const gameController = (function() {
         return turn;
     }
 
-    function startGame() {
-        console.log(`This is player${turn} turn`)
+    function restartGame() {
+        gameOver = false;
+        turn = 1;
+        gameBoard.resetBoard();
     }
 
     return {
-        startGame,
+        restartGame,
         playTurn,
         switchTurn,
         getTurn

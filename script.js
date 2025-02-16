@@ -1,18 +1,34 @@
 const gameBoard = (function() {
-    let board = [["", "", ""],
-                 ["", "", ""],
-                 ["", "", ""]]
+    let board = [["X", "o", "x"],
+                 ["o", "o", "x"],
+                 ["x", "x", ""]]
     
     function getValue(row, col) {
         console.log(board[row][col]);
     }
 
     function setValue(row, col, value) {
-        board[row][col] = value;
+        if(board[row][col] === ""){
+            board[row][col] = value;
+        } else {
+            return false
+        }
+        
     }
 
     function getBoard(){
         return board;
+    }
+
+    function isBoardFull() {
+        for(let row of board){
+            for (let col of row) {
+                if(col === "") {
+                    return false;
+                }
+            }
+        }
+        return true
     }
 
     function checkWin() {
@@ -40,6 +56,12 @@ const gameBoard = (function() {
             return board[0][2];
         }
 
+        if(isBoardFull()){
+            return "Draw";
+        }
+
+        
+
         return null; // No winner yet
     }
 
@@ -47,7 +69,8 @@ const gameBoard = (function() {
         getValue,
         setValue,
         getBoard,
-        checkWin
+        checkWin,
+        isBoardFull
     }
 })();
 
@@ -64,22 +87,28 @@ const gameController = (function() {
     const player1 = new Player("aa", "X");
     const player2 = new Player("bb", "O");
     let turn = 1;
+    let gameOver = false;
 
     function switchTurn(){
         turn = turn === 1 ? 2 : 1;
     }
 
     function playTurn(row, col) {
-        turn === 1 ? player1.setValue(row,col) : player2.setValue(row,col);
-        switchTurn();
-        console.log(gameBoard.getBoard());
-        if (gameBoard.checkWin() === "X") {
-            console.log("player1 wins");
-        } else if(gameBoard.checkWin() === "O"){
-            console.log("player2 wins");
-        } else {
-            console.log(`This is player${turn} turn`)
+        if(gameOver === false) {
+            turn === 1 ? player1.setValue(row,col) : player2.setValue(row,col);
+            switchTurn();
+            console.log(gameBoard.getBoard());
+            if (gameBoard.checkWin() === "X") {
+                console.log("player1 wins");
+            } else if(gameBoard.checkWin() === "O"){
+                console.log("player2 wins");
+            } else if(gameBoard.checkWin() === "Draw") {
+                console.log("Draw")
+            } else {
+                console.log(`This is player${turn} turn`)
+            }
         }
+        
     }
 
     function getTurn() {

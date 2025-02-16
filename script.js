@@ -1,7 +1,7 @@
 const gameBoard = (function() {
-    let board = [["X", "o", "x"],
-                 ["o", "o", "x"],
-                 ["x", "x", ""]]
+    let board = [["", "", ""],
+                 ["", "", ""],
+                 ["", "", ""]]
     
     function getValue(row, col) {
         console.log(board[row][col]);
@@ -80,7 +80,9 @@ function Player(name, sign) {
 }
 
 Player.prototype.setValue = function(row, col){
-    gameBoard.setValue(row, col, this.sign);
+    if(gameBoard.setValue(row, col, this.sign) === false){
+        return false
+    };
 };
 
 const gameController = (function() {
@@ -95,7 +97,16 @@ const gameController = (function() {
 
     function playTurn(row, col) {
         if(gameOver === false) {
-            turn === 1 ? player1.setValue(row,col) : player2.setValue(row,col);
+            if(turn === 1) {
+                if(player1.setValue(row,col) === false){
+                    console.log("false move");
+                }
+            } else if(turn === 2) {
+                if(player2.setValue(row,col) === false){
+                    console.log("false move");
+                }
+            }
+            // turn === 1 ? player1.setValue(row,col) : player2.setValue(row,col);
             switchTurn();
             console.log(gameBoard.getBoard());
             if (gameBoard.checkWin() === "X") {

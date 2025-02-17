@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+button {
+    background-color: white;
+}
+
+.restart-btn {
+    background-color: aliceblue;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+}
+
+.board {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 400px;
+    height: 400px;
+}
+
+.cell {
+    outline: none;
+    border: none;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+/* Remove the right border from the last column */
+.cell:nth-child(3n) {
+    border-right: none;
+}
+
+/* Remove the bottom border from the last row */
+.cell:nth-child(n+7) {
+    border-bottom: none;
+}   

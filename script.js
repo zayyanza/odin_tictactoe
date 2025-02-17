@@ -4,7 +4,7 @@ const gameBoard = (function() {
                  ["", "", ""]]
     
     function getValue(row, col) {
-        console.log(board[row][col]);
+        return board[row][col];
     }
 
     function setValue(row, col, value) {
@@ -97,12 +97,14 @@ const gameController = (function() {
     const player2 = new Player("bb", "O");
     let turn = 1;
     let gameOver = false;
+    let turnText = document.querySelector(".turn-text")
 
     function switchTurn(){
         turn = turn === 1 ? 2 : 1;
     }
 
     function playTurn(row, col) {
+        
         if(gameOver === false) {
             if(turn === 1) {
                 if(player1.setValue(row,col) === false){
@@ -120,7 +122,7 @@ const gameController = (function() {
                         console.log("Draw")
                         gameOver = true;
                     } else {
-                        console.log(`This is player${turn} turn`)
+                        turnText.textContent = `This is player2's turn (O)`;
                     }
                 }
 
@@ -137,7 +139,7 @@ const gameController = (function() {
                     } else if(gameBoard.checkWin() === "Draw") {
                         console.log("Draw")
                     } else {
-                        console.log(`This is player${turn} turn`)
+                        turnText.textContent = `This is player1's turn (X)`;
                     }
                 }
             }
@@ -148,22 +150,63 @@ const gameController = (function() {
         
     }
 
-    function getTurn() {
-        return turn;
-    }
 
     function restartGame() {
         gameOver = false;
         turn = 1;
         gameBoard.resetBoard();
+        turnText.textContent = `This is player1's turn (X)`;
+        displayController.renderBoard();
     }
 
     return {
         restartGame,
         playTurn,
-        switchTurn,
-        getTurn
+        switchTurn
     }
 
 
 })();
+
+const displayController = (function() {
+    const cells = document.querySelectorAll(".cell");
+
+    function addButtonEvent() {
+        cells.forEach((cell, index) => {
+            let row = Math.floor(index / 3);
+            let col = index % 3;
+
+            cell.addEventListener("click", () => {
+                gameController.playTurn(row,col);
+                renderBoard();
+            })
+            
+        });
+
+        let restartBtn = document.querySelector(".restart-btn");
+        restartBtn.addEventListener("click", () => gameController.restartGame())
+    }
+
+    function renderBoard() {
+        cells.forEach((cell, index) => {
+            let row = Math.floor(index / 3);
+            let col = index % 3;
+    
+            const value = gameBoard.getValue(row, col);
+            
+            if (value === "X" || value === "O") {
+                cell.textContent = value;
+            } else {
+                cell.textContent = ""; 
+            }
+        });
+    }
+
+    return {
+        addButtonEvent,
+        renderBoard
+    }
+})();
+
+displayController.addButtonEvent();
+

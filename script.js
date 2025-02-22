@@ -152,6 +152,7 @@ const gameController = (function() {
 
 
     function restartGame() {
+        displayController.closeDialog();
         gameOver = false;
         turn = 1;
         gameBoard.resetBoard();
@@ -172,7 +173,8 @@ const displayController = (function() {
     const cells = document.querySelectorAll(".cell");
     const p1dialog = document.querySelector(".player1Dialog");
     const p2dialog = document.querySelector(".player2Dialog");
-    const drawDialog = document.querySelector(".drawDialog")
+    const drawDialog = document.querySelector(".drawDialog");
+    const restartBtn = document.querySelectorAll(".restart-btn");
 
     function addButtonEvent() {
         cells.forEach((cell, index) => {
@@ -186,8 +188,9 @@ const displayController = (function() {
             
         });
 
-        let restartBtn = document.querySelectorAll(".restart-btn");
-        restartBtn.addEventListener("click", () => gameController.restartGame())
+        restartBtn.forEach(btn => {
+            btn.addEventListener("click", () => gameController.restartGame());
+        });
     }
 
     function renderBoard() {
@@ -216,12 +219,19 @@ const displayController = (function() {
         drawDialog.showModal();
     }
 
+    function closeDialog() {
+        p1dialog.close();
+        p2dialog.close();
+        drawDialog.close();
+    }
+
     return {
         addButtonEvent,
         renderBoard,
         showP1Dialog,
         showP2Dialog,
-        DrawDialog
+        DrawDialog,
+        closeDialog
     }
 })();
 

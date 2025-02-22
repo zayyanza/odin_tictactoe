@@ -5,6 +5,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    gap: 1rem;
 }
 
 button {
@@ -27,6 +28,7 @@ button {
 }
 
 .cell {
+    font-size: 60px;
     outline: none;
     border: none;
     border-right: 2px solid black;

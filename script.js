@@ -113,13 +113,13 @@ const gameController = (function() {
                     switchTurn();
                     console.log(gameBoard.getBoard());
                     if (gameBoard.checkWin() === "X") {
-                        console.log("player1 wins");
+                        displayController.showP1Dialog();
                         gameOver = true;
                     } else if(gameBoard.checkWin() === "O"){
-                        console.log("player2 wins");
+                        displayController.showP2Dialog();
                         gameOver = true;
                     } else if(gameBoard.checkWin() === "Draw") {
-                        console.log("Draw")
+                        displayController.DrawDialog();
                         gameOver = true;
                     } else {
                         turnText.textContent = `This is player2's turn (O)`;
@@ -133,11 +133,11 @@ const gameController = (function() {
                     switchTurn();
                     console.log(gameBoard.getBoard());
                     if (gameBoard.checkWin() === "X") {
-                        console.log("player1 wins");
+                        displayController.showP1Dialog();
                     } else if(gameBoard.checkWin() === "O"){
-                        console.log("player2 wins");
+                        displayController.showP2Dialog();
                     } else if(gameBoard.checkWin() === "Draw") {
-                        console.log("Draw")
+                        displayController.DrawDialog();
                     } else {
                         turnText.textContent = `This is player1's turn (X)`;
                     }
@@ -170,6 +170,9 @@ const gameController = (function() {
 
 const displayController = (function() {
     const cells = document.querySelectorAll(".cell");
+    const p1dialog = document.querySelector(".player1Dialog");
+    const p2dialog = document.querySelector(".player2Dialog");
+    const drawDialog = document.querySelector(".drawDialog")
 
     function addButtonEvent() {
         cells.forEach((cell, index) => {
@@ -183,7 +186,7 @@ const displayController = (function() {
             
         });
 
-        let restartBtn = document.querySelector(".restart-btn");
+        let restartBtn = document.querySelectorAll(".restart-btn");
         restartBtn.addEventListener("click", () => gameController.restartGame())
     }
 
@@ -202,9 +205,23 @@ const displayController = (function() {
         });
     }
 
+    function showP1Dialog() {
+        p1dialog.showModal();
+    }
+    function showP2Dialog() {
+        p2dialog.showModal();
+    }
+
+    function DrawDialog() {
+        drawDialog.showModal();
+    }
+
     return {
         addButtonEvent,
-        renderBoard
+        renderBoard,
+        showP1Dialog,
+        showP2Dialog,
+        DrawDialog
     }
 })();
 
